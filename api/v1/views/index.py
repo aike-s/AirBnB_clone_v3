@@ -22,7 +22,7 @@ from models import storage
 @app_views.route('/status', strict_slashes=False)
 def status():
     """  """
-    status = jsonify({'status': ' '})
+    status = jsonify({'status': 'OK'})
 
     return status
 
@@ -41,7 +41,3 @@ def num_each_dict_num_objs():
         dict_num_objs[class_name] = num_objs
 
     return jsonify(dict_num_objs)
-
-
-if __name__ == "__name__":
-    app_views.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
