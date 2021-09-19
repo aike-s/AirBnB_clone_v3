@@ -6,13 +6,10 @@ from api.v1.views import app_views
 from models import storage
 from flask import Flask, make_response
 from flask.json import jsonify
-
-HBNB_API_HOST = '0.0.0.0'
-HBNB_API_PORT = '5000'
+from os import getenv
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
-
 
 @app.errorhandler(404)
 def page_not_found(error):
@@ -28,4 +25,7 @@ def teardown():
 
 
 if __name__ == "__name__":
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
+    Host = getenv('HBNB_API_HOST', default='0.0.0.0')
+    Port = getenv('HBNB_API_PORT', default='5000')
+
+    app.run(host=Host, port=Port, threaded=True)
