@@ -8,9 +8,6 @@ from flask.json import jsonify
 from models import storage
 from models.state import State
 
-HBNB_API_HOST = '0.0.0.0'
-HBNB_API_PORT = '5000'
-
 
 @app_views.route('/api/v1/states', method=['GET'], strict_slashes=False)
 def get_all_states():
@@ -28,11 +25,12 @@ def get_all_states():
            strict_slashes=False)
 def get_state(state_id):
     """ Retrieve a state object based on the state id """
-    state_obj = (storage.get(State, state_id)).to_dict()
+    state_obj = storage.get(State, state_id)
 
     if state_obj is None:
         abort(404)
     else:
+        state_obj.to_dict()
         return jsonify(state_obj)
 
 
@@ -85,4 +83,3 @@ def put_state(state_id):
         setattr(state_obj, key, value)
     state_obj.save()
     return jsonify(state_obj.to_dict()), 200
-

@@ -2,8 +2,6 @@
 """
 
 """
-HBNB_API_HOST = '0.0.0.0'
-HBNB_API_PORT = '5000'
 
 """ Every class """
 from models.amenity import Amenity
