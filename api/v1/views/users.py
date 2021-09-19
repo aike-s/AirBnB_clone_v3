@@ -36,7 +36,8 @@ def get_state (user_id):
         return jsonify(user_obj)
 
 
-@app.route('/api/v1/users/<int:user_id>', method=['DELETE'], strict_slashes=False)
+@app.route('/api/v1/users/<int:user_id>', method=['DELETE'],
+            strict_slashes=False)
 def delete_state(user_id):
     """ Deletes a state object based on the state id """
     user_obj = storage.get(User, user_id)
@@ -63,7 +64,8 @@ def post_state():
         return jsonify(new_user.to_dict()), 201
 
 
-@app.route('/api/v1/users/<int:user_id>', methods=["PUT"], strict_slashes=False)
+@app.route('/api/v1/users/<int:user_id>', methods=["PUT"],
+           strict_slashes=False)
 def put_state(user_id):
     """ Updates a state object based on the state id """
     new_attributes = request.get_json
