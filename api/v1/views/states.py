@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-
+All default RESTFul API actions for State objects
 """
 from flask import Flask, request
 from flask.json import jsonify
@@ -48,7 +48,7 @@ def delete_state(state_id):
         abort(404)
     else:
         storage.delete(state_obj)
-        return {}, 200
+        return jsonify({}), 200
 
 
 @app.route('/api/v1/states', methods=['POST'], strict_slashes=False)
