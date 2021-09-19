@@ -22,20 +22,21 @@ def get_all_users():
     return jsonify(all_users)
 
 
-@app_views.route('/api/v1/users/<int:user_id>', methods=['GET'], strict_slashes=False)
-def get_state (user_id):
+@app_views.route('/api/v1/users/<int:user_id>', methods=['GET'],
+                 strict_slashes=False)
+def get_state(user_id):
     """ Retrieve a state object based on the state id """
     user_obj = storage.get(User, user_id)
 
     if user_obj is None:
-        abort (404)
+        abort(404)
     else:
         user_obj.to_dict()
         return jsonify(user_obj)
 
 
 @app_views.route('/api/v1/users/<int:user_id>', method=['DELETE'],
-            strict_slashes=False)
+                 strict_slashes=False)
 def delete_state(user_id):
     """ Deletes a state object based on the state id """
     user_obj = storage.get(User, user_id)
@@ -63,7 +64,7 @@ def post_state():
 
 
 @app_views.route('/api/v1/users/<int:user_id>', methods=["PUT"],
-           strict_slashes=False)
+                 strict_slashes=False)
 def put_state(user_id):
     """ Updates a state object based on the state id """
     new_attributes = request.get_json(silent=True)
@@ -72,7 +73,7 @@ def put_state(user_id):
     if not new_attributes:
         abort(404, description="Not a JSON")
     if user_obj is None:
-        abort (404)
+        abort(404)
 
     new_attributes.pop('id', None)
     new_attributes.pop('updated_at', None)

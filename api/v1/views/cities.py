@@ -31,12 +31,12 @@ def get_all_cities(state_id):
 
 @app_views.route('/api/v1/cities/<int:city_id>', methods=['GET'],
                  strict_slashes=False)
-def get_city (city_id):
+def get_city(city_id):
     """ Retrieve a city object based on the city id """
     city_obj = storage.get(City, city_id)
 
     if city_obj is None:
-        abort (404)
+        abort(404)
     else:
         city_obj.to_dict()
         return jsonify(city_obj)
@@ -49,13 +49,14 @@ def delete_city(city_id):
     city_obj = storage.get(City, city_id)
 
     if city_obj is None:
-        abort (404)
+        abort(404)
     else:
         storage.delete(city_obj)
         return jsonify({}), 200
 
 
-@app_views.route('/api/v1/states/<int:state_id>/cities', methods=['POST'], strict_slashes=False)
+@app_views.route('/api/v1/states/<int:state_id>/cities', methods=['POST'],
+                 strict_slashes=False)
 def post_city(state_id):
     """ Creates a new city object """
     attributes = request.get_json(silent=True)
@@ -84,7 +85,7 @@ def put_city(city_id):
     if not new_attributes:
         abort(404, description="Not a JSON")
     if city_obj is None:
-        abort (404)
+        abort(404)
 
     new_attributes.pop('id', None)
     new_attributes.pop('updated_at', None)

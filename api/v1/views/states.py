@@ -22,7 +22,7 @@ def get_all_states():
 
 
 @app_views.route('/api/v1/states/<int:state_id>', methods=['GET'],
-           strict_slashes=False)
+                 strict_slashes=False)
 def get_state(state_id):
     """ Retrieve a state object based on the state id """
     state_obj = storage.get(State, state_id)
@@ -35,7 +35,7 @@ def get_state(state_id):
 
 
 @app_views.route('/api/v1/states/<int:state_id>', method=['DELETE'],
-           strict_slashes=False)
+                 strict_slashes=False)
 def delete_state(state_id):
     """ Deletes a state object based on the state id """
     state_obj = storage.get(State, state_id)
@@ -64,7 +64,7 @@ def post_state():
 
 
 @app_views.route('/api/v1/states/<int:state_id>', methods=["PUT"],
-           strict_slashes=False)
+                 strict_slashes=False)
 def put_state(state_id):
     """ Updates a state object based on the state id """
     new_attributes = request.get_json(silent=True)

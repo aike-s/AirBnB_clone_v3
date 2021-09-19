@@ -11,6 +11,7 @@ from os import getenv
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
+
 @app.errorhandler(404)
 def page_not_found(error):
     """ Handler for 404 errors """
