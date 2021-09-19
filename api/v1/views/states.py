@@ -29,7 +29,7 @@ def get_all_states():
 @app.route('/api/v1/states/<int:state_id>', methods=['GET'], strict_slashes=False)
 def get_state (state_id):
     """ Retrieve a state object based on the state id """
-    state_obj = (storage.get(state_id)).to_dict()
+    state_obj = (storage.get(State, state_id)).to_dict()
 
     if state_obj is None:
         abort (404)
@@ -40,7 +40,7 @@ def get_state (state_id):
 @app.route('/api/v1/states/<int:state_id>', method=['DELETE'], strict_slashes=False)
 def delete_state(state_id):
     """ Deletes a state object based on the state id """
-    state_obj = (storage.get(state_id))
+    state_obj = storage.get(State, state_id)
 
     if state_obj is None:
         abort (404)
@@ -52,15 +52,14 @@ def delete_state(state_id):
 @app.route('/api/v1/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """ Creates a new state object """
-    http_body = request.get_json
-    name = request.json.get('name', None)
+    attribute = request.get_json
 
-    if not http_body.is_json:
+    if not attribute.is_json:
         abort(404, description="Not a JSON")
-    if not name:
+    if not attribute["name"]:
         abort(404, description="Missing name")
     else:
-        new_state = State(name)
+        new_state = State(attribute)
         storage.new(new_state)
         return jsonify(new_state.to_dict()), 201
 
@@ -69,7 +68,7 @@ def post_state():
 def put_state(state_id):
     """ Updates a state object based on the state id """
     new_attributes = request.get_json
-    state_obj = (storage.get(state_id))
+    state_obj = storage.get(State, state_id)
 
     if not new_attributes.is_json:
         abort(404, description="Not a JSON")
