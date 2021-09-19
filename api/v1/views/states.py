@@ -2,19 +2,17 @@
 """
 All default RESTFul API actions for State objects
 """
-from flask import Flask, request
+from api.v1.views import app_views
+from flask import request, abort
 from flask.json import jsonify
 from models import storage
-from werkzeug.exceptions import abort
 from models.state import State
 
 HBNB_API_HOST = '0.0.0.0'
 HBNB_API_PORT = '5000'
 
-app = Flask(__name__)
 
-
-@app.route('/api/v1/states', method=['GET'], strict_slashes=False)
+@app_views.route('/api/v1/states', method=['GET'], strict_slashes=False)
 def get_all_states():
     """ Retrieves a list of all State objects """
     all_states = []
@@ -26,7 +24,7 @@ def get_all_states():
     return jsonify(all_states)
 
 
-@app.route('/api/v1/states/<int:state_id>', methods=['GET'],
+@app_views.route('/api/v1/states/<int:state_id>', methods=['GET'],
            strict_slashes=False)
 def get_state(state_id):
     """ Retrieve a state object based on the state id """
@@ -38,7 +36,7 @@ def get_state(state_id):
         return jsonify(state_obj)
 
 
-@app.route('/api/v1/states/<int:state_id>', method=['DELETE'],
+@app_views.route('/api/v1/states/<int:state_id>', method=['DELETE'],
            strict_slashes=False)
 def delete_state(state_id):
     """ Deletes a state object based on the state id """
@@ -51,7 +49,7 @@ def delete_state(state_id):
         return jsonify({}), 200
 
 
-@app.route('/api/v1/states', methods=['POST'], strict_slashes=False)
+@app_views.route('/api/v1/states', methods=['POST'], strict_slashes=False)
 def post_state():
     """ Creates a new state object """
     attribute = request.get_json(silent=True)
@@ -67,7 +65,7 @@ def post_state():
         return jsonify(new_state.to_dict()), 201
 
 
-@app.route('/api/v1/states/<int:state_id>', methods=["PUT"],
+@app_views.route('/api/v1/states/<int:state_id>', methods=["PUT"],
            strict_slashes=False)
 def put_state(state_id):
     """ Updates a state object based on the state id """
@@ -88,6 +86,3 @@ def put_state(state_id):
     state_obj.save()
     return jsonify(state_obj.to_dict()), 200
 
-
-if __name__ == "__main__":
-    app.run(host=HBNB_API_HOST, port=HBNB_API_PORT, threaded=True)
