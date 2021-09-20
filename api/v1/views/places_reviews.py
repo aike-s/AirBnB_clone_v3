@@ -10,9 +10,9 @@ from models.place import Place
 from models.review import Review
 
 
-@app_views.route('/places/<int:place_id>/reviews', method=['GET'],
+@app_views.route('/places/<place_id>/reviews', methods=['GET'],
                  strict_slashes=False)
-def get_all_reviews(place_id):
+def get_all_place_reviews(place_id):
     """ Retrieves a list of all place objects based on the place id"""
     all_place_reviews = []
     review_objs = storage.all("Review")
@@ -28,9 +28,9 @@ def get_all_reviews(place_id):
         return jsonify(all_place_reviews)
 
 
-@app_views.route('/reviews/<int:review_id>', methods=['GET'],
+@app_views.route('/reviews/<review_id>', methods=['GET'],
                  strict_slashes=False)
-def get_place(review_id):
+def get_place_review(review_id):
     """ Retrieve a place object based on the review id """
     review_obj = storage.get(Review, review_id)
 
@@ -41,9 +41,9 @@ def get_place(review_id):
         return jsonify(review_obj)
 
 
-@app_views.route('/reviews/<int:review_id>', method=['DELETE'],
+@app_views.route('/reviews/<review_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_review(review_id):
+def delete_place_review(review_id):
     """ Deletes a review object based on the review id """
     review_obj = storage.get(Review, review_id)
 
@@ -54,9 +54,9 @@ def delete_review(review_id):
         return jsonify({}), 200
 
 
-@app_views.route('/places/<int:place_id>/reviews', methods=['POST'],
+@app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
-def post_review(place_id):
+def post_place_review(place_id):
     """ Creates a new place object """
     attributes = request.get_json(silent=True)
     place = storage.get(Place, place_id)
@@ -74,9 +74,9 @@ def post_review(place_id):
         return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/reviews/<int:review_id>', methods=["PUT"],
+@app_views.route('/reviews/<review_id>', methods=["PUT"],
                  strict_slashes=False)
-def put_review(review_id):
+def put_place_review(review_id):
     """ Updates a review object based on the review id """
     new_attributes = request.get_json(silent=True)
     review_obj = storage.get(Review, review_id)

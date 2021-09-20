@@ -10,7 +10,7 @@ from models.place import Place
 from models.city import City
 
 
-@app_views.route('/cities/<int:city_id>/places', method=['GET'],
+@app_views.route('/cities/<city_id>/places', methods=['GET'],
                  strict_slashes=False)
 def get_all_places(city_id):
     """ Retrieves a list of all place objects based on the place id"""
@@ -28,7 +28,7 @@ def get_all_places(city_id):
         return jsonify(all_city_places)
 
 
-@app_views.route('/places/<int:place_id>', methods=['GET'],
+@app_views.route('/places/<place_id>', methods=['GET'],
                  strict_slashes=False)
 def get_place(place_id):
     """ Retrieve a place object based on the place id """
@@ -41,7 +41,7 @@ def get_place(place_id):
         return jsonify(place_obj)
 
 
-@app_views.route('/places/<int:place_id>', method=['DELETE'],
+@app_views.route('/places/<place_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_place(place_id):
     """ Deletes a place object based on the place id """
@@ -54,7 +54,7 @@ def delete_place(place_id):
         return jsonify({}), 200
 
 
-@app_views.route('/cities/<int:city_id>/places', methods=['POST'],
+@app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def post_place(city_id):
     """ Creates a new place object """
@@ -74,7 +74,7 @@ def post_place(city_id):
         return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route('/places/<int:place_id>', methods=["PUT"],
+@app_views.route('/places/<place_id>', methods=["PUT"],
                  strict_slashes=False)
 def put_place(place_id):
     """ Updates a place object based on the place id """

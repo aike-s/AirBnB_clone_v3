@@ -22,12 +22,12 @@ def page_not_found(error):
 
 
 @app.teardown_appcontext
-def teardown():
+def teardown(exception):
     """ Teardown context """
     storage.close()
 
 
-if __name__ == "__name__":
+if __name__ == "__main__":
     """ Runs the app """
     Host = getenv('HBNB_API_HOST', default='0.0.0.0')
     Port = getenv('HBNB_API_PORT', default='5000')

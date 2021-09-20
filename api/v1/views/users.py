@@ -9,7 +9,7 @@ from models import storage
 from models.user import User
 
 
-@app_views.route('/users', method=['GET'], strict_slashes=False)
+@app_views.route('/users', methods=['GET'], strict_slashes=False)
 def get_all_users():
     """ Retrieves a list of all State objects """
     all_users = []
@@ -21,9 +21,9 @@ def get_all_users():
     return jsonify(all_users)
 
 
-@app_views.route('/users/<int:user_id>', methods=['GET'],
+@app_views.route('/users/<user_id>', methods=['GET'],
                  strict_slashes=False)
-def get_state(user_id):
+def get_user(user_id):
     """ Retrieve a state object based on the state id """
     user_obj = storage.get(User, user_id)
 
@@ -34,9 +34,9 @@ def get_state(user_id):
         return jsonify(user_obj)
 
 
-@app_views.route('/users/<int:user_id>', method=['DELETE'],
+@app_views.route('/users/<user_id>', methods=['DELETE'],
                  strict_slashes=False)
-def delete_state(user_id):
+def delete_user(user_id):
     """ Deletes a state object based on the state id """
     user_obj = storage.get(User, user_id)
 
@@ -48,7 +48,7 @@ def delete_state(user_id):
 
 
 @app_views.route('/users', methods=['POST'], strict_slashes=False)
-def post_state():
+def post_user():
     """ Creates a new state object """
     attributes = request.get_json(silent=True)
 
@@ -62,9 +62,9 @@ def post_state():
         return jsonify(new_user.to_dict()), 201
 
 
-@app_views.route('/users/<int:user_id>', methods=["PUT"],
+@app_views.route('/users/<user_id>', methods=["PUT"],
                  strict_slashes=False)
-def put_state(user_id):
+def put_user(user_id):
     """ Updates a state object based on the state id """
     new_attributes = request.get_json(silent=True)
     user_obj = storage.get(User, user_id)
