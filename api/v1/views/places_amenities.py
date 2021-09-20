@@ -3,7 +3,7 @@
 All default RESTFul API actions for review objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import abort
 from flask.json import jsonify
 from models import storage
 from models.place import Place

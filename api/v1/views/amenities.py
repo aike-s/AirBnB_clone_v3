@@ -2,10 +2,9 @@
 """
 """
 from api.v1.views import app_views
-from flask import request
+from flask import request, abort
 from flask.json import jsonify
 from models import storage
-from werkzeug.exceptions import abort
 from models.amenity import Amenity
 
 
