@@ -7,9 +7,11 @@ from models import storage
 from flask import Flask, make_response
 from flask.json import jsonify
 from os import getenv
+from flask_cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
+CORS(app, resources={r"/*": {"origins": ["0.0.0.0"]}})
 
 
 @app.errorhandler(404)
@@ -29,4 +31,4 @@ if __name__ == "__name__":
     Host = getenv('HBNB_API_HOST', default='0.0.0.0')
     Port = getenv('HBNB_API_PORT', default='5000')
 
-    app.run(host=Host, port=Port, threaded=True)
+    app.run(host=Host, port=int(Port), threaded=True)
