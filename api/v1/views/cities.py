@@ -15,17 +15,14 @@ from models.state import State
 def get_all_cities(state_id):
     """ Retrieves a list of all City objects based on the state id"""
     all_state_cities = []
-    city_objs = storage.all("City")
     state_obj = storage.get(State, state_id)
 
     if state_obj is None:
         abort(404)
 
     else:
-        for obj in city_objs.values():
-            obj = obj.to_dict()
-            if obj['state_id'] is state_id:
-                all_state_cities.append(obj)
+        for city in state_obj.cities:
+            all_state_cities.append(city.to_dict())
 
         return jsonify(all_state_cities)
 
