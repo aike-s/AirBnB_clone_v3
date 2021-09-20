@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 """
+All default RESTFul API actions for User objects
 """
 from api.v1.views import app_views
 from flask import request, abort

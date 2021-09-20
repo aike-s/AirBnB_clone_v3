@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-
+Route functions
 """
 from models.amenity import Amenity
 from models.city import City

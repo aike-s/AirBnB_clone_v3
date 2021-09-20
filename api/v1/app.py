@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-
+Here runs app with all routes and RESTful API services
 """
 from api.v1.views import app_views
 from models import storage
