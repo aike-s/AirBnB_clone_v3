@@ -23,7 +23,7 @@ def page_not_found(error):
 
 @app.teardown_appcontext
 def teardown():
-    """  """
+    """ Teardown context """
     storage.close()
 
 

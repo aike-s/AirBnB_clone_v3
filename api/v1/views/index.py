@@ -15,7 +15,7 @@ from models import storage
 
 @app_views.route('/status', strict_slashes=False)
 def status():
-    """  """
+    """ Return the status """
     status = jsonify({'status': 'OK'})
 
     return status
@@ -23,7 +23,7 @@ def status():
 
 @app_views.route('/stats', strict_slashes=False)
 def num_each_dict_num_objs():
-    """  """
+    """ Return a dict with the num of objects in a class """
 
     classes = {"Amenity": Amenity, "City": City, "Place": Place,
                "Review": Review, "State": State, "User": User}
