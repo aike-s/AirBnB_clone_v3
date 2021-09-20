@@ -54,9 +54,9 @@ def post_amenity():
     attributes = request.get_json(silent=True)
 
     if not attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 404)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     else:
         new_amenity = Amenity(**attributes)
         storage.new(new_amenity)
@@ -71,7 +71,7 @@ def put_amenity(amenity_id):
     amenity_obj = storage.get(Amenity, amenity_id)
 
     if not new_attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if amenity_obj is None:
         abort(404)
 

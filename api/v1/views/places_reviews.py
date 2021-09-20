@@ -65,9 +65,9 @@ def post_place_review(place_id):
     place = storage.get(Place, place_id)
 
     if not attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 404)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     if place is None:
         abort(404)
     else:

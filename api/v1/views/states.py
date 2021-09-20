@@ -54,9 +54,9 @@ def post_state():
     attribute = request.get_json(silent=True)
 
     if not attribute:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attribute["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 404)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     else:
         new_state = State(**attribute)
         new_state.save()
@@ -71,7 +71,7 @@ def put_state(state_id):
     state_obj = storage.get(State, state_id)
 
     if not new_attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if state_obj is None:
         abort(404)
 

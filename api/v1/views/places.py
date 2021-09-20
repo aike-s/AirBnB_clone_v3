@@ -65,9 +65,9 @@ def post_place(city_id):
     city = storage.get(City, city_id)
 
     if not attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 404)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     if city is None:
         abort(404)
     else:
@@ -85,7 +85,7 @@ def put_place(place_id):
     place_obj = storage.get(Place, place_id)
 
     if not new_attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if place_obj is None:
         abort(404)
 

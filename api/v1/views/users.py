@@ -54,9 +54,9 @@ def post_user():
     attributes = request.get_json(silent=True)
 
     if not attributes.is_json:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 404)
+        return make_response(jsonify({"error": "Missing name"}), 400)
     else:
         new_user = User(**attributes)
         new_user.save()
@@ -71,7 +71,7 @@ def put_user(user_id):
     user_obj = storage.get(User, user_id)
 
     if not new_attributes:
-        return make_response(jsonify({"error": "Not a JSON"}), 404)
+        return make_response(jsonify({"error": "Not a JSON"}), 400)
     if user_obj is None:
         abort(404)
 
