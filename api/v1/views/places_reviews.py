@@ -64,8 +64,6 @@ def post_place_review(place_id):
 
     if not attributes:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 400)
     if not attributes["text"]:
         return make_response(jsonify({"error": "Missing text"}), 400)
     if not attributes["user_id"]:

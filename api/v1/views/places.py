@@ -66,10 +66,10 @@ def post_place(city_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
         return make_response(jsonify({"error": "Missing name"}), 400)
-    if city is None:
-        abort(404)
     if not attributes["user_id"]:
         return make_response(jsonify({"error": "Missing user_id"}), 400)
+    if city is None:
+        abort(404)
 
     user = storage.get(User, attributes["user_id"])
 
