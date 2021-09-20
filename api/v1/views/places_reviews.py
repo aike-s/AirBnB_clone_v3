@@ -10,7 +10,7 @@ from models.place import Place
 from models.review import Review
 
 
-@app_views.route('/api/v1/places/<int:place_id>/reviews', method=['GET'],
+@app_views.route('/places/<int:place_id>/reviews', method=['GET'],
                  strict_slashes=False)
 def get_all_reviews(place_id):
     """ Retrieves a list of all place objects based on the place id"""
@@ -28,7 +28,7 @@ def get_all_reviews(place_id):
         return jsonify(all_place_reviews)
 
 
-@app_views.route('/api/v1/reviews/<int:review_id>', methods=['GET'],
+@app_views.route('/reviews/<int:review_id>', methods=['GET'],
                  strict_slashes=False)
 def get_place(review_id):
     """ Retrieve a place object based on the review id """
@@ -41,7 +41,7 @@ def get_place(review_id):
         return jsonify(review_obj)
 
 
-@app_views.route('/api/v1/reviews/<int:review_id>', method=['DELETE'],
+@app_views.route('/reviews/<int:review_id>', method=['DELETE'],
                  strict_slashes=False)
 def delete_review(review_id):
     """ Deletes a review object based on the review id """
@@ -54,7 +54,7 @@ def delete_review(review_id):
         return jsonify({}), 200
 
 
-@app_views.route('/api/v1/places/<int:place_id>/reviews', methods=['POST'],
+@app_views.route('/places/<int:place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def post_review(place_id):
     """ Creates a new place object """
@@ -74,7 +74,7 @@ def post_review(place_id):
         return jsonify(new_review.to_dict()), 201
 
 
-@app_views.route('/api/v1/reviews/<int:review_id>', methods=["PUT"],
+@app_views.route('/reviews/<int:review_id>', methods=["PUT"],
                  strict_slashes=False)
 def put_review(review_id):
     """ Updates a review object based on the review id """
