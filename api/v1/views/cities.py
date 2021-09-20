@@ -3,7 +3,7 @@
 All default RESTFul API actions for City objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.city import City
@@ -37,7 +37,7 @@ def get_city(city_id):
     if city_obj is None:
         abort(404)
     else:
-        city_obj.to_dict()
+        city_obj = city_obj.to_dict()
         return jsonify(city_obj)
 
 
@@ -51,6 +51,7 @@ def delete_city(city_id):
         abort(404)
     else:
         storage.delete(city_obj)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -62,9 +63,9 @@ def post_city(state_id):
     state = storage.get(State, state_id)
 
     if not attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if not attributes["name"]:
-        abort(404, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 404)
     if state is None:
         abort(404)
     else:
@@ -82,7 +83,7 @@ def put_city(city_id):
     city_obj = storage.get(City, city_id)
 
     if not new_attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if city_obj is None:
         abort(404)
 

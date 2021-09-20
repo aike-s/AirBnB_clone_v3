@@ -3,7 +3,7 @@
 All default RESTFul API actions for User objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.user import User
@@ -30,7 +30,7 @@ def get_user(user_id):
     if user_obj is None:
         abort(404)
     else:
-        user_obj.to_dict()
+        user_obj = user_obj.to_dict()
         return jsonify(user_obj)
 
 
@@ -44,6 +44,7 @@ def delete_user(user_id):
         abort(404)
     else:
         storage.delete(user_obj)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -53,9 +54,9 @@ def post_user():
     attributes = request.get_json(silent=True)
 
     if not attributes.is_json:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if not attributes["name"]:
-        abort(404, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 404)
     else:
         new_user = User(**attributes)
         new_user.save()
@@ -70,7 +71,7 @@ def put_user(user_id):
     user_obj = storage.get(User, user_id)
 
     if not new_attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if user_obj is None:
         abort(404)
 

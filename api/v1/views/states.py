@@ -3,7 +3,7 @@
 All default RESTFul API actions for State objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.state import State
@@ -30,7 +30,7 @@ def get_state(state_id):
     if state_obj is None:
         abort(404)
     else:
-        state_obj.to_dict()
+        state_obj = state_obj.to_dict()
         return jsonify(state_obj)
 
 
@@ -44,6 +44,7 @@ def delete_state(state_id):
         abort(404)
     else:
         storage.delete(state_obj)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -53,13 +54,12 @@ def post_state():
     attribute = request.get_json(silent=True)
 
     if not attribute:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if not attribute["name"]:
-        abort(404, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 404)
     else:
         new_state = State(**attribute)
         new_state.save()
-        """ try make_response if it fails :) """
         return jsonify(new_state.to_dict()), 201
 
 
@@ -71,7 +71,7 @@ def put_state(state_id):
     state_obj = storage.get(State, state_id)
 
     if not new_attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if state_obj is None:
         abort(404)
 

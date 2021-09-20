@@ -3,7 +3,7 @@
 All default RESTFul API actions for Place objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.place import Place
@@ -37,7 +37,7 @@ def get_place(place_id):
     if place_obj is None:
         abort(404)
     else:
-        place_obj.to_dict()
+        place_obj = place_obj.to_dict()
         return jsonify(place_obj)
 
 
@@ -51,6 +51,7 @@ def delete_place(place_id):
         abort(404)
     else:
         storage.delete(place_obj)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -62,9 +63,9 @@ def post_place(city_id):
     city = storage.get(City, city_id)
 
     if not attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if not attributes["name"]:
-        abort(404, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 404)
     if city is None:
         abort(404)
     else:
@@ -82,7 +83,7 @@ def put_place(place_id):
     place_obj = storage.get(Place, place_id)
 
     if not new_attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if place_obj is None:
         abort(404)
 

@@ -43,6 +43,7 @@ def delete_place_amenity(place_id, amenity_id):
         abort(404)
     else:
         storage.delete(amenity_obj)
+        storage.save()
         return jsonify({}), 200
 
 

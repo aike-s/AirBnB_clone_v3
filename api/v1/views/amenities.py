@@ -3,7 +3,7 @@
 All default RESTFul API actions for Amenity objects
 """
 from api.v1.views import app_views
-from flask import request, abort
+from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.amenity import Amenity
@@ -30,7 +30,7 @@ def get_amenity(amenity_id):
     if amenity_obj is None:
         abort(404)
     else:
-        amenity_obj.to_dict()
+        amenity_obj = amenity_obj.to_dict()
         return jsonify(amenity_obj)
 
 
@@ -44,6 +44,7 @@ def delete_amenity(amenity_id):
         abort(404)
     else:
         storage.delete(amenity_obj)
+        storage.save()
         return jsonify({}), 200
 
 
@@ -53,9 +54,9 @@ def post_amenity():
     attributes = request.get_json(silent=True)
 
     if not attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if not attributes["name"]:
-        abort(404, description="Missing name")
+        return make_response(jsonify({"error": "Missing name"}), 404)
     else:
         new_amenity = Amenity(**attributes)
         storage.new(new_amenity)
@@ -70,7 +71,7 @@ def put_amenity(amenity_id):
     amenity_obj = storage.get(Amenity, amenity_id)
 
     if not new_attributes:
-        abort(404, description="Not a JSON")
+        return make_response(jsonify({"error": "Not a JSON"}), 404)
     if amenity_obj is None:
         abort(404)
 
