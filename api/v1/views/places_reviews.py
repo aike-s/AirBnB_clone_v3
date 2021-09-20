@@ -8,6 +8,7 @@ from flask.json import jsonify
 from models import storage
 from models.place import Place
 from models.review import Review
+from models.user import User
 
 
 @app_views.route('/places/<place_id>/reviews', methods=['GET'],
@@ -65,7 +66,16 @@ def post_place_review(place_id):
         return make_response(jsonify({"error": "Not a JSON"}), 400)
     if not attributes["name"]:
         return make_response(jsonify({"error": "Missing name"}), 400)
+    if not attributes["text"]:
+        return make_response(jsonify({"error": "Missing text"}), 400)
+    if not attributes["user_id"]:
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
     if place is None:
+        abort(404)
+
+    user = storage.get(User, attributes["user_id"])
+
+    if user is None:
         abort(404)
     else:
         attributes["place_id"] = place_id
@@ -87,6 +97,8 @@ def put_place_review(review_id):
         abort(404)
 
     new_attributes.pop('id', None)
+    new_attributes.pop('user_id', None)
+    new_attributes.pop('place_id', None)
     new_attributes.pop('updated_at', None)
     new_attributes.pop('created_at', None)
 

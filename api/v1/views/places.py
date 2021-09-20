@@ -2,12 +2,13 @@
 """
 All default RESTFul API actions for Place objects
 """
-from api.v1.views import app_views
+from api.v1.views import app_views, users
 from flask import request, abort, make_response
 from flask.json import jsonify
 from models import storage
 from models.place import Place
 from models.city import City
+from models.user import User
 
 
 @app_views.route('/cities/<city_id>/places', methods=['GET'],
@@ -67,6 +68,13 @@ def post_place(city_id):
         return make_response(jsonify({"error": "Missing name"}), 400)
     if city is None:
         abort(404)
+    if not attributes["user_id"]:
+        return make_response(jsonify({"error": "Missing user_id"}), 400)
+
+    user = storage.get(User, attributes["user_id"])
+
+    if user is None:
+        abort(404)
     else:
         attributes["city_id"] = city_id
         new_place = Place(**attributes)
@@ -89,6 +97,8 @@ def put_place(place_id):
     new_attributes.pop('id', None)
     new_attributes.pop('updated_at', None)
     new_attributes.pop('created_at', None)
+    new_attributes.pop('user_id', None)
+    new_attributes.pop('city_id', None)
 
     for key, value in new_attributes.items():
         setattr(place_obj, key, value)

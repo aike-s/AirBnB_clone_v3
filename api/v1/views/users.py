@@ -55,8 +55,10 @@ def post_user():
 
     if not attributes.is_json:
         return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if not attributes["name"]:
-        return make_response(jsonify({"error": "Missing name"}), 400)
+    if not attributes["email"]:
+        return make_response(jsonify({"error": "Missing email"}), 400)
+    if not attributes["password"]:
+        return make_response(jsonify({"error": "Missing password"}), 400)
     else:
         new_user = User(**attributes)
         new_user.save()
@@ -76,6 +78,7 @@ def put_user(user_id):
         abort(404)
 
     new_attributes.pop('id', None)
+    new_attributes.pop('email', None)
     new_attributes.pop('updated_at', None)
     new_attributes.pop('created_at', None)
 
