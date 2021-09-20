@@ -4,8 +4,7 @@ Here runs app with all routes and RESTful API services
 """
 from api.v1.views import app_views
 from models import storage
-from flask import Flask, make_response
-from flask.json import jsonify
+from flask import Flask, make_response, jsonify
 from os import getenv
 from flask_cors import CORS
 

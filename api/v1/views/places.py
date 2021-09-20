@@ -2,9 +2,8 @@
 """
 All default RESTFul API actions for Place objects
 """
-from api.v1.views import app_views, users
-from flask import request, abort, make_response
-from flask.json import jsonify
+from api.v1.views import app_views
+from flask import request, abort, make_response, jsonify
 from models import storage
 from models.place import Place
 from models.city import City
