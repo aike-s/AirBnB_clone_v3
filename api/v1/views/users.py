@@ -81,5 +81,5 @@ def put_user(user_id):
 
     for key, value in new_attributes.items():
         setattr(user_obj, key, value)
-    user_obj.save()
+    storage.save()
     return jsonify(user_obj.to_dict()), 200

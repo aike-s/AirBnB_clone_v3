@@ -15,17 +15,14 @@ from models.review import Review
 def get_all_place_reviews(place_id):
     """ Retrieves a list of all place objects based on the place id"""
     all_place_reviews = []
-    review_objs = storage.all("Review")
     place_obj = storage.get(Place, place_id)
 
     if place_obj is None:
         abort(404)
 
     else:
-        for obj in review_objs.values():
-            obj = obj.to_dict()
-            if obj['place_id'] is place_id:
-                all_place_reviews.append(obj)
+        for review in place_obj.reviews:
+                all_place_reviews.append(review.to_dict())
 
         return jsonify(all_place_reviews)
 
@@ -95,5 +92,5 @@ def put_place_review(review_id):
 
     for key, value in new_attributes.items():
         setattr(review_obj, key, value)
-    review_obj.save()
+    storage.save()
     return jsonify(review_obj.to_dict()), 200

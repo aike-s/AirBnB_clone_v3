@@ -15,17 +15,14 @@ from models.amenity import Amenity
 def get_all_place_amenities(place_id):
     """ Retrieves a list of all amenity objects based on the place id"""
     all_place_amenities = []
-    amenity_objs = storage.all("Amenity")
     place_obj = storage.get(Place, place_id)
 
     if place_obj is None:
         abort(404)
 
     else:
-        for obj in amenity_objs.values():
-            obj = obj.to_dict()
-            if obj['place_id'] is place_id:
-                all_place_amenities.append(obj)
+        for amenity in place_obj.amenities:
+            all_place_amenities.append(amenity.to_dict())
 
         return jsonify(all_place_amenities)
 

@@ -81,5 +81,5 @@ def put_amenity(amenity_id):
 
     for key, value in new_attributes.items():
         setattr(amenity_obj, key, value)
-    amenity_obj.save()
+    storage.save()
     return jsonify(amenity_obj.to_dict()), 200

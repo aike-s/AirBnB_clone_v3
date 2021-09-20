@@ -92,5 +92,5 @@ def put_city(city_id):
 
     for key, value in new_attributes.items():
         setattr(city_obj, key, value)
-    city_obj.save()
+    storage.save()
     return jsonify(city_obj.to_dict()), 200

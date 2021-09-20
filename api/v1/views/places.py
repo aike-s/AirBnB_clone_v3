@@ -92,5 +92,5 @@ def put_place(place_id):
 
     for key, value in new_attributes.items():
         setattr(place_obj, key, value)
-    place_obj.save()
+    storage.save()
     return jsonify(place_obj.to_dict()), 200
