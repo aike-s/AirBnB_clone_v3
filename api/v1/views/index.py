@@ -12,7 +12,6 @@ from flask import jsonify
 from api.v1.views import app_views
 from models import storage
 
-
 @app_views.route('/status', strict_slashes=False)
 def status():
     """ Return the status """
@@ -25,14 +24,11 @@ def status():
 def num_each_dict_num_objs():
     """ Return a dict with the num of objects in a class """
 
-    classes = {"Amenity": Amenity, "City": City, "Place": Place,
-               "Review": Review, "State": State, "User": User}
-
-    dict_num_objs = {}
-
-    for key, value in classes.items():
-        num_objs = storage.count(value)
-        class_name = key.lower()
-        dict_num_objs[class_name] = num_objs
+    dict_num_objs = {"amenities": storage.count(Amenity),
+                     "cities": storage.count(City),
+                     "reviews": storage.count(Review),
+                     "states": storage.count(State),
+                     "users": storage.count(User),
+                     "places": storage.count(Place)}
 
     return jsonify(dict_num_objs)
