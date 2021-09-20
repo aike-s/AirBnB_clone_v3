@@ -16,15 +16,17 @@ def get_all_place_reviews(place_id):
     """ Retrieves a list of all place objects based on the place id"""
     all_place_reviews = []
     review_objs = storage.all("Review")
+    place_obj = storage.get(Place, place_id)
 
-    for obj in review_objs.values():
-        obj = obj.to_dict()
-        if obj['place_id'] is place_id:
-            all_place_reviews.append(obj)
-
-    if len[all_place_reviews] < 1:
+    if place_obj is None:
         abort(404)
+
     else:
+        for obj in review_objs.values():
+            obj = obj.to_dict()
+            if obj['place_id'] is place_id:
+                all_place_reviews.append(obj)
+
         return jsonify(all_place_reviews)
 
 

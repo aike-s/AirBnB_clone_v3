@@ -16,15 +16,17 @@ def get_all_places(city_id):
     """ Retrieves a list of all place objects based on the place id"""
     all_city_places = []
     place_objs = storage.all("Place")
+    city_obj = storage.get(City, city_id)
 
-    for obj in place_objs.values():
-        obj = obj.to_dict()
-        if obj['city_id'] is city_id:
-            all_city_places.append(obj)
-
-    if len[all_city_places] < 1:
+    if city_obj is None:
         abort(404)
+
     else:
+        for obj in place_objs.values():
+            obj = obj.to_dict()
+            if obj['city_id'] is city_id:
+                all_city_places.append(obj)
+
         return jsonify(all_city_places)
 
 
